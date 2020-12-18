@@ -34,4 +34,4 @@ del new3['concerts']
 del new3['works']
 del new3['soloists']
 
-new3.to_csv('2011-12_TO_NOW(soloists added).csv')
+new3.to_csv('2011-12_TO_NOW.csv')
