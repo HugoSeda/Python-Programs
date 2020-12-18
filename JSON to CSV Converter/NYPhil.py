@@ -20,11 +20,18 @@ works_data = json_normalize(data=d['programs'], record_path='works',
 concerts_data = json_normalize(data=d['programs'], record_path='concerts',
 							meta=['programID'])
 
+soloists_data = json_normalize(data=d['programs'], record_path=['works', 'soloists'],
+							meta=['programID', ['works', 'ID']])
+							
+soloists_data.columns = ['soloistName', 'soloistInstrument', 'soloistRoles', 'programID', 'ID']
+
 new = pd.merge(nyphil, concerts_data, on='programID', how='outer')
 new2 = pd.merge(new, works_data, on='programID', how='outer')
+new3 = pd.merge(new2, soloists_data, on=['programID', 'ID'], how='outer')
 
 #Removes redundant columns
-del new2['concerts']
-del new2['works']
+del new3['concerts']
+del new3['works']
+del new3['soloists']
 
-new2.to_csv('2011-12_TO_NOW.csv')
+new3.to_csv('2011-12_TO_NOW(soloists added).csv')
